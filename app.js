@@ -7,7 +7,7 @@ app.set('view engine','ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 const EmployeeModel=Mongoose.model("employeedetails",{name:String,desg:String,sal:String})
-Mongoose.connect("mongodb://localhost:27017/employeedb")
+Mongoose.connect("mongodb+srv://atlas:atlas@cluster0-eieo6.mongodb.net/test?retryWrites=true&w=majority")
 app.get('/',(req,res)=>{
     res.render('home')
 })
@@ -39,7 +39,7 @@ app.get('/getdatas',(req,res)=>{
 })
 const getdataApi="http://localhost:3000/getdatas"
 
-app.get('/disp',(re,res)=>{
+app.get('/disp',(req,res)=>{
     request(getdataApi,(error,response,body)=>{
         var data=JSON.parse(body)
         console.log(data)
@@ -57,6 +57,15 @@ app.get('/getEmployeeApi/:name',(req,res)=>{
         }
     })
 })
+app.get('/search',(req,res)=>{
+    res.render('search')
+})
+
+app.get('/searchapi',(req,res)=>{
+    var input=req.params.search
+    res.send(input)
+})
+
 app.listen(process.env.PORT || 3000,()=>{
     console.log("Server is running")
    
